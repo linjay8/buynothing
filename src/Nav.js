@@ -17,6 +17,7 @@ import Profile from "./Profile";
 import SignupButton from "./SignupButton";
 import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useHistory } from "react-router-dom";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -24,6 +25,7 @@ export default function Nav() {
   const { isAuthenticated, isLoading, user } = useAuth0();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  let history = useHistory();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -50,6 +52,9 @@ export default function Nav() {
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            onClick={() => {
+              history.push("/");
+            }}
           >
             Buy Nothing
           </Typography>
@@ -110,41 +115,64 @@ export default function Nav() {
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            onClick={() => {
+              history.push("/");
+            }}
           >
             Buy Nothing
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                textAlign: "center",
+              }}
+              component={Link}
+              to="/"
             >
-              <Link to="/" className="nav-color">
-                Home
-              </Link>
+              Home
             </Button>
             <Button
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                textAlign: "center",
+              }}
+              component={Link}
+              to="/about"
             >
-              <Link to="/about" className="nav-color">
-                About
-              </Link>
+              About
             </Button>
             <Button
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+              component={Link}
+              to="/gift"
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                textAlign: "center",
+              }}
             >
-              <Link to="/gift" className="nav-color">
-                Gift
-              </Link>
+              Gift
             </Button>
             <Button
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                textAlign: "center",
+              }}
+              component={Link}
+              to="/ask"
             >
-              <Link to="/ask" className="nav-color">
-                Ask
-              </Link>
+              Ask
             </Button>
           </Box>
           {!isLoading && (
@@ -186,6 +214,15 @@ export default function Nav() {
                           to="/profile"
                         >
                           Profile
+                        </Link>
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Link
+                          textAlign="center"
+                          className="user-menu-color"
+                          to="/myposts"
+                        >
+                          My Posts
                         </Link>
                       </MenuItem>
                       <LogoutButton />

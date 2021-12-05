@@ -8,15 +8,17 @@ import {
   Typography,
   Grid,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GiftConfirmation from "./GiftConfirmation";
 import SendIcon from "@mui/icons-material/Send";
 import { useAuth0 } from "@auth0/auth0-react";
 
-export default function AskForm(props) {
-  const url = "http://localhost:4000/api/posts";
+export default function EditPost(props) {
+  const url = "http://localhost:4000/api/posts/";
   const { user } = useAuth0();
 
   const [name, setName] = useState("");
@@ -29,7 +31,8 @@ export default function AskForm(props) {
   const [typeError, setTypeError] = useState("");
   const [description, setDescription] = useState("");
   const [pickup, setPickup] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [category, setCategory] = useState("");
+  const [availability, setAvailability] = useState(0);
   function handleNameChange(event) {
     setName(event.target.value);
     setNameError("");
@@ -52,9 +55,30 @@ export default function AskForm(props) {
   function handlePickupChange(event) {
     setPickup(event.target.checked);
   }
+  function handleAvailability(event, newAvailability) {
+    setAvailability(newAvailability);
+  }
+  function fetchPost() {
+    const id = props.match.params.postId;
+    fetch(url + id)
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        setName(json.fullName);
+        setCity(json.city);
+        setItem(json.item);
+        setType(json.itemType);
+        setDescription(json.description);
+        setPickup(json.pickup);
+        setCategory(json.categoryId ? "Ask" : "Gift");
+        setAvailability(json.availability);
+      });
+  }
   function submitPost() {
-    fetch(url, {
-      method: "POST",
+    const id = props.match.params.postId;
+    fetch(url + id, {
+      method: "PUT",
       body: JSON.stringify({
         fullName: name,
         city: city,
@@ -62,8 +86,9 @@ export default function AskForm(props) {
         itemType: type,
         description: description,
         pickup: pickup,
-        categoryId: 1,
+        categoryId: category === "Gift" ? 0 : 1,
         userId: user.sub,
+        availability: availability,
       }),
       headers: {
         "Content-type": "application/json",
@@ -107,8 +132,10 @@ export default function AskForm(props) {
     setType("");
     setDescription("");
     setPickup(false);
-    setSubmitted(false);
   }
+  useEffect(() => {
+    fetchPost();
+  }, []);
   return (
     <Box>
       <Box
@@ -118,7 +145,7 @@ export default function AskForm(props) {
         noValidate
       >
         <Typography variant="h2" textAlign="center" margin="40px">
-          Ask
+          {category}
         </Typography>
         <Grid container spacing={2} sx={{}}>
           <Grid item xs={12} sm={6}>
@@ -160,9 +187,9 @@ export default function AskForm(props) {
           <Grid item xs={12} sm={4}>
             <TextField
               id="inputType"
+              required
               select
               fullWidth
-              required
               label="Item Type"
               value={type}
               error={!!typeError}
@@ -188,9 +215,21 @@ export default function AskForm(props) {
               onChange={handleDescriptionChange}
             />
           </Grid>
-          <Grid item xs={12}>
+
+          <Grid item xs={12} md={8} lg={10}>
+            <ToggleButtonGroup
+              value={availability}
+              exclusive
+              onChange={handleAvailability}
+            >
+              <ToggleButton value={0}>Available</ToggleButton>
+              <ToggleButton value={1}>Pending</ToggleButton>
+              <ToggleButton value={2}>Unavailable</ToggleButton>
+            </ToggleButtonGroup>
+          </Grid>
+          <Grid item xs={12} md={4} lg={2}>
             <FormControlLabel
-              label="Can pickup?"
+              label="Pickup only?"
               id="inputPickup"
               control={
                 <Checkbox checked={pickup} onChange={handlePickupChange} />
@@ -200,7 +239,7 @@ export default function AskForm(props) {
           <Grid item xs={12}>
             <Stack direction="row" spacing={2}>
               <Button type="submit" variant="contained" endIcon={<SendIcon />}>
-                Post
+                Update
               </Button>
               <Button type="button" variant="outlined" onClick={clearAll}>
                 Clear

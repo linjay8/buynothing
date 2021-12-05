@@ -12,6 +12,10 @@ import Nav from "./Nav";
 import Home from "./Home";
 import About from "./About";
 import Profile from "./Profile";
+import MyPosts from "./MyPosts";
+import PostDetails from "./PostDetails";
+import EditPost from "./EditPost";
+import DetailsPage from "./DetailsPage";
 
 export default class App extends React.Component {
   render() {
@@ -24,6 +28,9 @@ export default class App extends React.Component {
             <Route path="/ask" component={AskForm} />
             <Route path="/gift" component={GiftForm} />
             <Route path="/profile" component={Profile} />
+            <Route path="/myposts" component={MyPosts} />
+            <Route path="/posts/:postId/edit" component={EditPost} />
+            <Route path="/posts/:postId" component={DetailsPage} />
             <Route path="/" component={Home} />
           </Switch>
         </Router>
