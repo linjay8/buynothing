@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import "@fontsource/roboto/300.css";
@@ -16,25 +21,59 @@ import MyPosts from "./MyPosts";
 import PostDetails from "./PostDetails";
 import EditPost from "./EditPost";
 import DetailsPage from "./DetailsPage";
+import { createTheme, CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@mui/system";
+import NotFound from "./NotFound";
+import Footer from "./Footer";
+import ProtectedRoute from "./ProtectedRoute";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <Box>
-        <Router>
-          <Nav />
-          <Switch>
-            <Route path="/about" component={About} />
-            <Route path="/ask" component={AskForm} />
-            <Route path="/gift" component={GiftForm} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/myposts" component={MyPosts} />
-            <Route path="/posts/:postId/edit" component={EditPost} />
-            <Route path="/posts/:postId" component={DetailsPage} />
-            <Route path="/" component={Home} />
-          </Switch>
-        </Router>
-      </Box>
-    );
-  }
+export default function App() {
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Inter, Roboto",
+      fontWeightLight: 200,
+      fontWeightRegular: 400,
+      fontWeightMedium: 400,
+      fontWeightBold: 600,
+    },
+  });
+
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh" /* will cover the 100% of viewport */,
+        display: "block",
+        position: "relative",
+        paddingBottom: "60px" /* height of your footer */,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <Box>
+          <Router>
+            <Nav />
+            <Box>
+              <Switch>
+                <Route path="/about" component={About} />
+                <ProtectedRoute path="/ask" component={AskForm} />
+                <ProtectedRoute path="/gift" component={GiftForm} />
+                <ProtectedRoute path="/profile" component={Profile} />
+                <ProtectedRoute path="/myposts" component={MyPosts} />
+                <ProtectedRoute
+                  path="/posts/:postId/edit"
+                  component={EditPost}
+                />
+                <Route path="/posts/:postId" component={DetailsPage} />
+                <Route exact path="/" component={Home} />
+                <Route path="/404" component={NotFound} />
+                <Redirect to="/404" />
+              </Switch>
+            </Box>
+          </Router>
+        </Box>
+      </ThemeProvider>
+      <footer>
+        <Footer />
+      </footer>
+    </Box>
+  );
 }

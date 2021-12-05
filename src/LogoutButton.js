@@ -6,6 +6,12 @@ export default function LogoutButton() {
   const { logout } = useAuth0();
   return (
     <MenuItem
+      sx={{
+        color: "#3A6944",
+        "&:hover": {
+          color: "#1D3522",
+        },
+      }}
       onClick={() => {
         logout({ returnTo: window.location.origin });
       }}

@@ -29,22 +29,33 @@ export default function PostDetails(props) {
   let history = useHistory();
   function fetchPost() {
     fetch(url + id)
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        setPost(json);
-        if (json.availability === 0) {
-          setItemAvail("Available");
-          setItemAvailColor("success");
-        } else if (json.availability === 1) {
-          setItemAvail("Pending");
-          setItemAvailColor("warning");
-        } else if (json.availability === 2) {
-          setItemAvail("Unavailable");
-          setItemAvailColor("error");
+      .then(
+        (response) => {
+          return response.json();
+        },
+        (error) => {
+          console.error(error);
         }
-      });
+      )
+      .then(
+        (json) => {
+          setPost(json);
+
+          if (json.availability === 0) {
+            setItemAvail("Available");
+            setItemAvailColor("success");
+          } else if (json.availability === 1) {
+            setItemAvail("Pending");
+            setItemAvailColor("warning");
+          } else if (json.availability === 2) {
+            setItemAvail("Unavailable");
+            setItemAvailColor("error");
+          }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
   function deletePost() {
     const isDeleteConfirmed = window.confirm(
@@ -67,11 +78,13 @@ export default function PostDetails(props) {
     <Box>
       {post && (
         <Card
+          raised="true"
           sx={{
             minWidth: 275,
             width: "60%",
             position: "relative",
             margin: "auto",
+            borderRadius: "20px",
           }}
         >
           <Box sx={{ position: "absolute", bottom: 15, right: 15 }}>
@@ -97,8 +110,7 @@ export default function PostDetails(props) {
             >
               {post.fullName}
             </Typography>
-
-            {user.sub === post.userId && (
+            {user && user.sub === post.userId && (
               <Box sx={{ display: "inline", position: "absolute", right: 15 }}>
                 <IconButton
                   aria-label="more"

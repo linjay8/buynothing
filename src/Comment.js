@@ -14,7 +14,7 @@ export default function Comment(props) {
   const url = "http://localhost:4000/api/comments/";
   const { user } = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
-  const { id, userId, name, body } = props;
+  const { id, userId, name, body, time } = props;
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,7 +26,7 @@ export default function Comment(props) {
 
   function deletePost() {
     const isDeleteConfirmed = window.confirm(
-      "Are you sure you want to delete this post?"
+      "Are you sure you want to delete this comment?"
     );
     if (!isDeleteConfirmed) {
       return;
@@ -34,19 +34,21 @@ export default function Comment(props) {
     fetch(url + id, {
       method: "DELETE",
     }).then(() => {
-      // history push
+      props.fetchAllComments();
     });
   }
 
   return (
     <Box>
       <Card
+        raised="true"
         sx={{
           minWidth: 275,
           width: "60%",
           position: "relative",
           margin: "auto",
           marginBottom: 0,
+          borderRadius: "20px",
         }}
       >
         <CardContent sx={{ position: "relative" }}>
@@ -55,10 +57,10 @@ export default function Comment(props) {
             color="text.secondary"
             gutterBottom
           >
-            {/* Time goes here */}
+            {time}
           </Typography>
 
-          {user.sub === userId && (
+          {user && user.sub === userId && (
             <Box sx={{ display: "inline", position: "absolute", right: 15 }}>
               <IconButton
                 aria-label="more"
@@ -88,13 +90,9 @@ export default function Comment(props) {
               </Menu>
             </Box>
           )}
-          <Typography
-            sx={{ mb: 1.5, display: "inline" }}
-            color="text.secondary"
-          >
+          <Typography sx={{ mb: 0.5 }} color="text.primary">
             {name}
           </Typography>
-
           <Typography variant="body2">{body}</Typography>
         </CardContent>
       </Card>

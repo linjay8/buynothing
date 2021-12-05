@@ -7,7 +7,8 @@ export default function LoginButton() {
   return (
     <Button
       type="button"
-      sx={{ my: 2, color: "white", display: "block" }}
+      color="inherit"
+      sx={{ my: 2, display: "block" }}
       onClick={() => {
         loginWithRedirect();
       }}

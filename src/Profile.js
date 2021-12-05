@@ -19,10 +19,12 @@ export default function Profile() {
       }}
     >
       <Card
+        raised="true"
         sx={{
           minWidth: 275,
           width: "40%",
           marginTop: "10%",
+          borderRadius: "20px",
         }}
       >
         <CardContent>

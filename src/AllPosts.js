@@ -34,8 +34,8 @@ export default function AllPosts() {
       });
   }
   return (
-    <Box sx={{}}>
-      <Grid container spacing={2}>
+    <Box sx={{ width: "95%", margin: "auto", marginBottom: "30px" }}>
+      <Grid container spacing={6}>
         {posts &&
           posts.map((post) => {
             return (

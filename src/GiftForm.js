@@ -194,16 +194,47 @@ export default function GiftForm(props) {
               label="Pickup only?"
               id="inputPickup"
               control={
-                <Checkbox checked={pickup} onChange={handlePickupChange} />
+                <Checkbox
+                  checked={pickup}
+                  onChange={handlePickupChange}
+                  sx={{
+                    color: "#3A6944",
+                    "&.Mui-checked": {
+                      color: "#3A6944",
+                    },
+                  }}
+                />
               }
             />
           </Grid>
           <Grid item xs={12}>
             <Stack direction="row" spacing={2}>
-              <Button type="submit" variant="contained" endIcon={<SendIcon />}>
+              <Button
+                type="submit"
+                variant="contained"
+                endIcon={<SendIcon />}
+                sx={{
+                  backgroundColor: "#3A6944",
+                  "&:hover": {
+                    backgroundColor: "#57B894",
+                  },
+                }}
+              >
                 Post
               </Button>
-              <Button type="button" variant="outlined" onClick={clearAll}>
+              <Button
+                type="button"
+                variant="outlined"
+                onClick={clearAll}
+                sx={{
+                  borderColor: "#3A6944",
+                  color: "#3A6944",
+                  "&:hover": {
+                    borderColor: "#57B894",
+                    color: "#57B894",
+                  },
+                }}
+              >
                 Clear
               </Button>
             </Stack>

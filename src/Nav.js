@@ -11,15 +11,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import LoginButton from "./LoginButton";
 import Profile from "./Profile";
 import SignupButton from "./SignupButton";
 import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import ScrollToColor from "./ScrollToColor";
 
 export default function Nav() {
   const { isAuthenticated, isLoading, user } = useAuth0();
@@ -41,204 +40,270 @@ export default function Nav() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  console.log(user);
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-            onClick={() => {
-              history.push("/");
-            }}
-          >
-            Buy Nothing
-          </Typography>
+    <ScrollToColor>
+      <AppBar position="sticky" sx={{ backgroundColor: "#3A6944" }}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h5"
+              noWrap
+              component="div"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex", cursor: "pointer" },
+              }}
+              onClick={() => {
+                history.push("/");
+              }}
+            >
+              Buy Nothing
+            </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/" className="nav-color">
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                <MenuItem
+                  onClick={handleCloseNavMenu}
+                  component={NavLink}
+                  to="/"
+                  exact
+                  activeStyle={{ color: "#1D3522" }}
+                  sx={{
+                    color: "#3A6944",
+                    "&:hover": {
+                      color: "#1D3522",
+                    },
+                  }}
+                >
                   Home
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/about" className="nav-color">
+                </MenuItem>
+                <MenuItem
+                  onClick={handleCloseNavMenu}
+                  component={NavLink}
+                  to="/about"
+                  activeStyle={{ color: "#1D3522" }}
+                  sx={{
+                    color: "#3A6944",
+                    "&:hover": {
+                      color: "#1D3522",
+                    },
+                  }}
+                >
                   About
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/gift" className="nav-color">
+                </MenuItem>
+                <MenuItem
+                  onClick={handleCloseNavMenu}
+                  component={NavLink}
+                  to="/gift"
+                  activeStyle={{ color: "#1D3522" }}
+                  sx={{
+                    color: "#3A6944",
+                    "&:hover": {
+                      color: "#1D3522",
+                    },
+                  }}
+                >
                   Gift
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/ask" className="nav-color">
+                </MenuItem>
+                <MenuItem
+                  onClick={handleCloseNavMenu}
+                  component={NavLink}
+                  to="/ask"
+                  activeStyle={{ color: "#1D3522" }}
+                  sx={{
+                    color: "#3A6944",
+                    "&:hover": {
+                      color: "#1D3522",
+                    },
+                  }}
+                >
                   Ask
-                </Link>
-              </MenuItem>
-            </Menu>
-          </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-            onClick={() => {
-              history.push("/");
-            }}
-          >
-            Buy Nothing
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{
-                my: 2,
-                color: "white",
-                display: "block",
-                textAlign: "center",
-              }}
-              component={Link}
-              to="/"
-            >
-              Home
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{
-                my: 2,
-                color: "white",
-                display: "block",
-                textAlign: "center",
-              }}
-              component={Link}
-              to="/about"
-            >
-              About
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              component={Link}
-              to="/gift"
-              sx={{
-                my: 2,
-                color: "white",
-                display: "block",
-                textAlign: "center",
+                </MenuItem>
+              </Menu>
+            </Box>
+            <Typography
+              variant="h5"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+              onClick={() => {
+                history.push("/");
               }}
             >
-              Gift
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{
-                my: 2,
-                color: "white",
-                display: "block",
-                textAlign: "center",
-              }}
-              component={Link}
-              to="/ask"
-            >
-              Ask
-            </Button>
-          </Box>
-          {!isLoading && (
-            <>
-              {isAuthenticated ? (
-                <>
-                  <Button
-                    disabled
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    <Typography color="white">Hi {user.nickname}!</Typography>
-                  </Button>
-                  <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Settings">
-                      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt={user.name} src={user.picture} />
-                      </IconButton>
-                    </Tooltip>
-                    <Menu
-                      sx={{ mt: "45px" }}
-                      id="menu-appbar"
-                      anchorEl={anchorElUser}
-                      anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      open={Boolean(anchorElUser)}
-                      onClose={handleCloseUserMenu}
-                    >
-                      <MenuItem onClick={handleCloseNavMenu}>
-                        <Link
-                          textAlign="center"
-                          className="user-menu-color"
+              Buy Nothing
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Button
+                exact
+                color="inherit"
+                sx={{
+                  my: 2,
+                  display: "block",
+                  textAlign: "center",
+                  "&:hover": {
+                    color: "#1D3522",
+                  },
+                  "&:active": {
+                    color: "#1D3522",
+                  },
+                }}
+                component={NavLink}
+                to="/"
+                activeStyle={{ color: "#1D3522" }}
+              >
+                Home
+              </Button>
+              <Button
+                color="inherit"
+                sx={{
+                  my: 2,
+                  display: "block",
+                  textAlign: "center",
+                  "&:hover": {
+                    color: "#1D3522",
+                  },
+                }}
+                component={NavLink}
+                to="/about"
+                activeStyle={{ color: "#1D3522" }}
+              >
+                About
+              </Button>
+              <Button
+                component={NavLink}
+                to="/gift"
+                color="inherit"
+                sx={{
+                  my: 2,
+                  display: "block",
+                  textAlign: "center",
+                  "&:hover": {
+                    color: "#1D3522",
+                  },
+                }}
+                activeStyle={{ color: "#1D3522" }}
+              >
+                Gift
+              </Button>
+              <Button
+                color="inherit"
+                sx={{
+                  my: 2,
+                  display: "block",
+                  textAlign: "center",
+                  "&:hover": {
+                    color: "#1D3522",
+                  },
+                }}
+                component={NavLink}
+                activeStyle={{ color: "#1D3522" }}
+                to="/ask"
+              >
+                Ask
+              </Button>
+            </Box>
+            {!isLoading && (
+              <>
+                {isAuthenticated ? (
+                  <>
+                    <Button disabled sx={{ my: 2, display: "block" }}>
+                      <ScrollToColor>
+                        <Typography>Hi {user.nickname}!</Typography>
+                      </ScrollToColor>
+                    </Button>
+                    <Box sx={{ flexGrow: 0 }}>
+                      <Tooltip title="Settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                          <Avatar alt={user.name} src={user.picture} />
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        sx={{ mt: "45px" }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                          vertical: "top",
+                          horizontal: "right",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                          vertical: "top",
+                          horizontal: "right",
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                      >
+                        <MenuItem
+                          onClick={handleCloseNavMenu}
+                          component={NavLink}
                           to="/profile"
+                          activeStyle={{ color: "#1D3522" }}
+                          sx={{
+                            color: "#3A6944",
+                            "&:hover": {
+                              color: "#1D3522",
+                            },
+                          }}
                         >
                           Profile
-                        </Link>
-                      </MenuItem>
-                      <MenuItem onClick={handleCloseNavMenu}>
-                        <Link
-                          textAlign="center"
-                          className="user-menu-color"
+                        </MenuItem>
+                        <MenuItem
+                          onClick={handleCloseNavMenu}
+                          component={NavLink}
                           to="/myposts"
+                          activeStyle={{ color: "#1D3522" }}
+                          sx={{
+                            color: "#3A6944",
+                            "&:hover": {
+                              color: "#1D3522",
+                            },
+                          }}
                         >
                           My Posts
-                        </Link>
-                      </MenuItem>
-                      <LogoutButton />
-                    </Menu>
-                  </Box>
-                </>
-              ) : (
-                <>
-                  <LoginButton />
-                  <SignupButton />
-                </>
-              )}
-            </>
-          )}
-        </Toolbar>
-      </Container>
-    </AppBar>
+                        </MenuItem>
+                        <LogoutButton />
+                      </Menu>
+                    </Box>
+                  </>
+                ) : (
+                  <>
+                    <LoginButton />
+                    <SignupButton />
+                  </>
+                )}
+              </>
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </ScrollToColor>
   );
 }

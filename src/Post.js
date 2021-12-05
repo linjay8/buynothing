@@ -37,11 +37,13 @@ export default function Post(props) {
 
   return (
     <Card
+      raised="true"
       sx={{
         minWidth: 275,
         width: "100%",
         position: "relative",
         height: "100%",
+        borderRadius: "20px",
       }}
     >
       <CardActionArea
