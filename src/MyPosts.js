@@ -1,37 +1,24 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import {
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Grid,
-  Stack,
-} from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import Post from "./Post";
 
 export default function MyPosts() {
   const [posts, setPosts] = useState(null);
-  const [loading, setLoading] = useState(true);
   const { user } = useAuth0();
 
-  const url = "http://localhost:4000/api/posts";
+  const url = "https://buy-nothing-api.herokuapp.com/api/posts";
   useEffect(() => {
-    setLoading(true);
     fetchAllPosts();
+    document.title = "My Posts";
   }, []);
 
   function fetchAllPosts() {
-    setLoading(true);
     fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((json) => {
-        setLoading(false);
         setPosts(json);
       });
   }
@@ -63,6 +50,7 @@ export default function MyPosts() {
                   </Grid>
                 );
               }
+              return <></>;
             })}
         </Grid>
       </Box>

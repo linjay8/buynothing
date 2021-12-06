@@ -8,11 +8,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Chip, IconButton, Menu, MenuItem } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
 export default function PostDetails(props) {
-  const url = "http://localhost:4000/api/posts/";
-  const commentsUrl = "http://localhost:4000/api/comments/";
+  const url = "https://buy-nothing-api.herokuapp.com/api/posts/";
   const id = props.id;
   const { user } = useAuth0();
   const [post, setPost] = useState(null);
@@ -51,6 +51,8 @@ export default function PostDetails(props) {
             setItemAvail("Unavailable");
             setItemAvailColor("error");
           }
+
+          document.title = json.item;
         },
         (error) => {
           console.error(error);
@@ -68,6 +70,7 @@ export default function PostDetails(props) {
       method: "DELETE",
     }).then(() => {
       history.push("/");
+      toast.success("Your post was successfully deleted.");
     });
   }
   useEffect(() => {

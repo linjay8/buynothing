@@ -1,39 +1,20 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SendIcon from "@mui/icons-material/Send";
-import {
-  Chip,
-  IconButton,
-  Menu,
-  MenuItem,
-  Grid,
-  TextField,
-  Stack,
-} from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function CommentForm(props) {
-  const url = "http://localhost:4000/api/comments/";
+  const url = "https://buy-nothing-api.herokuapp.com/api/comments/";
   const { user } = useAuth0();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [body, setBody] = useState("");
   const [bodyError, setBodyError] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   function handleNameChange(event) {
     setName(event.target.value);
     setNameError("");
@@ -48,7 +29,7 @@ export default function CommentForm(props) {
       body: JSON.stringify({
         name: name,
         body: body,
-        postId: props.id,
+        postId: parseInt(props.id),
         userId: user.sub,
         timestamp: new Date(),
       }),
@@ -60,7 +41,7 @@ export default function CommentForm(props) {
         return response.json();
       })
       .then((json) => {
-        //toast.success(`Post "${json.title}" was successfully created.`);
+        toast.success(`Your comment was successfully posted.`);
         setName("");
         setBody("");
         props.fetchAllComments();
@@ -82,8 +63,6 @@ export default function CommentForm(props) {
       submitComment();
     }
   }
-
-  let history = useHistory();
 
   return (
     <Box

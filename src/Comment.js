@@ -1,17 +1,15 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Chip, IconButton, Menu, MenuItem } from "@mui/material";
+import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 export default function Comment(props) {
-  const url = "http://localhost:4000/api/comments/";
+  const url = "https://buy-nothing-api.herokuapp.com/api/comments/";
   const { user } = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
   const { id, userId, name, body, time } = props;
@@ -22,7 +20,6 @@ export default function Comment(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  let history = useHistory();
 
   function deletePost() {
     const isDeleteConfirmed = window.confirm(
@@ -35,6 +32,7 @@ export default function Comment(props) {
       method: "DELETE",
     }).then(() => {
       props.fetchAllComments();
+      toast.success("Your comment was successfully deleted.");
     });
   }
 

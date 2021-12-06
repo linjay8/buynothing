@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -8,18 +7,8 @@ import { CardActionArea, Chip } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
 export default function Post(props) {
-  const {
-    id,
-    name,
-    city,
-    item,
-    type,
-    description,
-    pickup,
-    status,
-    postType,
-    availability,
-  } = props;
+  const { id, name, city, item, description, pickup, postType, availability } =
+    props;
   const postCategory = postType ? "Ask" : "Gift";
   let itemAvail = "";
   let itemAvailColor = "";
@@ -37,7 +26,7 @@ export default function Post(props) {
 
   return (
     <Card
-      raised="true"
+      raised={true}
       sx={{
         minWidth: 275,
         width: "100%",
@@ -58,9 +47,15 @@ export default function Post(props) {
           variant="contained"
           sx={{ position: "absolute", bottom: 15, right: 15 }}
           color={itemAvailColor}
+          data-testid="availability"
         />
-        <CardContent sx={{ position: "relative" }}>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <CardContent sx={{}}>
+          <Typography
+            sx={{ fontSize: 14 }}
+            color="text.secondary"
+            gutterBottom
+            data-testid="name"
+          >
             {name}
           </Typography>
 
@@ -69,14 +64,16 @@ export default function Post(props) {
             size="small"
             variant="outlined"
             sx={{ position: "absolute", top: 15, right: 15 }}
-            color="secondary"
+            color={postCategory === "Gift" ? "secondary" : "primary"}
+            data-testid="category"
           />
-          <Typography variant="h5" component="div">
+          <Typography variant="h5" component="div" data-testid="item">
             {item}
           </Typography>
           <Typography
             sx={{ mb: 1.5, display: "inline" }}
             color="text.secondary"
+            data-testid="city"
           >
             {city}
           </Typography>
@@ -84,13 +81,16 @@ export default function Post(props) {
             <Typography
               sx={{ mb: 1.5, display: "inline" }}
               color="text.secondary"
+              data-testid="pickup"
             >
               {" "}
               - {postType ? "Can pickup" : "Pickup only"}
             </Typography>
           )}
 
-          <Typography variant="body2">{description}</Typography>
+          <Typography variant="body2" data-testid="description">
+            {description}
+          </Typography>
         </CardContent>
         <CardActions>
           <Button size="small"></Button>

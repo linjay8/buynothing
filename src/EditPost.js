@@ -13,12 +13,12 @@ import {
 } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.css";
 import { useState, useEffect } from "react";
-import GiftConfirmation from "./GiftConfirmation";
 import SendIcon from "@mui/icons-material/Send";
 import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
 
 export default function EditPost(props) {
-  const url = "http://localhost:4000/api/posts/";
+  const url = "https://buy-nothing-api.herokuapp.com/api/posts/";
   const { user } = useAuth0();
 
   const [name, setName] = useState("");
@@ -98,7 +98,7 @@ export default function EditPost(props) {
         return response.json();
       })
       .then((json) => {
-        //toast.success(`Post "${json.title}" was successfully created.`);
+        toast.success(`Your post was successfully edited.`);
         props.history.push(`/posts/${id}`);
       });
   }
@@ -135,6 +135,7 @@ export default function EditPost(props) {
   }
   useEffect(() => {
     fetchPost();
+    document.title = "Edit Post";
   }, []);
   return (
     <Box>

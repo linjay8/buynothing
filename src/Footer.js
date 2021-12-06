@@ -1,9 +1,19 @@
-import { Box, Icon, IconButton, Link, Typography } from "@mui/material";
+import { Box, IconButton, Link, Typography } from "@mui/material";
 import GithubIcon from "@mui/icons-material/GitHub";
 import PersonIcon from "@mui/icons-material/Person";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { useState } from "react";
+import Modal from "./Modal";
 
 export default function Footer() {
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
   return (
     <Box
       margin="auto"
@@ -14,7 +24,10 @@ export default function Footer() {
       className="footer"
     >
       <div>
-        <Typography color="#3A6944">© 2021 Jay Lin</Typography>
+        <Typography color="#3A6944" onClick={handleClickOpen}>
+          © 2021 Jay Lin
+        </Typography>
+        <Modal open={open} onClose={handleClose} />
       </div>
       <div>
         <Link href={"https://www.linjay.me"} target={"_blank"}>

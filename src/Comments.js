@@ -1,33 +1,19 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import {
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Grid,
-  Stack,
-} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 
 export default function Comments(props) {
   const [comments, setComments] = useState(null);
-  const [loading, setLoading] = useState(true);
   const { isAuthenticated } = useAuth0();
 
-  const url = "http://localhost:4000/api/comments";
+  const url = "https://buy-nothing-api.herokuapp.com/api/comments";
   useEffect(() => {
-    setLoading(true);
-
     fetchAllComments();
   }, []);
 
   function fetchAllComments() {
-    setLoading(true);
     fetch(url)
       .then(
         (response) => {
@@ -38,7 +24,6 @@ export default function Comments(props) {
         }
       )
       .then((json) => {
-        setLoading(false);
         setComments(json);
       });
   }
@@ -53,7 +38,7 @@ export default function Comments(props) {
             .map((comment) => {
               let time = new Date(comment.timestamp);
               time = time.toLocaleString();
-              if (props.id == comment.postId) {
+              if (props.id === comment.postId.toString()) {
                 return (
                   <Grid item xs={12}>
                     <Comment
@@ -68,6 +53,7 @@ export default function Comments(props) {
                   </Grid>
                 );
               }
+              return <></>;
             })
             .reverse()}
       </Grid>

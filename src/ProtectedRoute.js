@@ -9,7 +9,7 @@ export default function ProtectedRoute(props) {
     <Route
       component={withAuthenticationRequired(component, {
         onRedirecting: () => {
-          return <div>Loading...</div>;
+          return <div className="loader">Loading...</div>;
         },
       })}
       {...remainingProps}

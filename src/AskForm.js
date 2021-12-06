@@ -10,13 +10,16 @@ import {
   Stack,
 } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.css";
-import { useState } from "react";
-import GiftConfirmation from "./GiftConfirmation";
+import { useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
 
 export default function AskForm(props) {
-  const url = "http://localhost:4000/api/posts";
+  useEffect(() => {
+    document.title = "Ask Form";
+  }, []);
+  const url = "https://buy-nothing-api.herokuapp.com/api/posts";
   const { user } = useAuth0();
 
   const [name, setName] = useState("");
@@ -29,7 +32,6 @@ export default function AskForm(props) {
   const [typeError, setTypeError] = useState("");
   const [description, setDescription] = useState("");
   const [pickup, setPickup] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   function handleNameChange(event) {
     setName(event.target.value);
     setNameError("");
@@ -52,32 +54,7 @@ export default function AskForm(props) {
   function handlePickupChange(event) {
     setPickup(event.target.checked);
   }
-  function submitPost() {
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        fullName: name,
-        city: city,
-        item: item,
-        itemType: type,
-        description: description,
-        pickup: pickup,
-        categoryId: 1,
-        userId: user.sub,
-        availability: 0,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        //toast.success(`Post "${json.title}" was successfully created.`);
-        props.history.push("/");
-      });
-  }
+
   function handleSubmit(event) {
     event.preventDefault();
     let error = false;
@@ -101,6 +78,32 @@ export default function AskForm(props) {
       submitPost();
     }
   }
+  function submitPost() {
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        fullName: name,
+        city: city,
+        item: item,
+        itemType: type,
+        description: description,
+        pickup: pickup,
+        categoryId: 1,
+        userId: user.sub,
+        availability: 0,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        toast.success(`Your ask post was successfully created.`);
+        props.history.push("/");
+      });
+  }
   function clearAll() {
     setName("");
     setCity("");
@@ -108,7 +111,6 @@ export default function AskForm(props) {
     setType("");
     setDescription("");
     setPickup(false);
-    setSubmitted(false);
   }
   return (
     <Box>

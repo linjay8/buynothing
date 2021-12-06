@@ -1,6 +1,10 @@
 import { Box, Grid, Typography } from "@mui/material";
+import { useEffect } from "react";
 
 export default function About() {
+  useEffect(() => {
+    document.title = "About Us";
+  }, []);
   return (
     <>
       <Grid container sx={{ width: "85%", margin: "60px auto" }}>

@@ -6,7 +6,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -18,14 +17,15 @@ import Home from "./Home";
 import About from "./About";
 import Profile from "./Profile";
 import MyPosts from "./MyPosts";
-import PostDetails from "./PostDetails";
 import EditPost from "./EditPost";
 import DetailsPage from "./DetailsPage";
-import { createTheme, CssBaseline } from "@mui/material";
+import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import NotFound from "./NotFound";
 import Footer from "./Footer";
 import ProtectedRoute from "./ProtectedRoute";
+import { ToastContainer, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const theme = createTheme({
@@ -74,6 +74,17 @@ export default function App() {
       <footer>
         <Footer />
       </footer>
+      <ToastContainer
+        position="top-right"
+        autoClose={3500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnFocusLoss={false}
+        transition={Slide}
+      />
     </Box>
   );
 }

@@ -1,9 +1,12 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useEffect } from "react";
 import AllPosts from "./AllPosts";
-import Post from "./Post";
 
 export default function Home() {
+  useEffect(() => {
+    document.title = "Home";
+  }, []);
   return (
     <Box>
       <img

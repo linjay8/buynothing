@@ -1,8 +1,12 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function NotFound() {
+  useEffect(() => {
+    document.title = "404 Not Found";
+  }, []);
   return (
     <>
       <Box
@@ -51,7 +55,14 @@ export default function NotFound() {
               component={Link}
               to="/"
               startIcon={<ArrowBackIcon fontSize="small" />}
-              sx={{ mt: 3, backgroundColor: "#57B894" }}
+              sx={{
+                mt: 3,
+                backgroundColor: "#57B894",
+                "&:hover": {
+                  backgroundColor: "#3A6944",
+                  color: "white",
+                },
+              }}
               variant="contained"
             >
               Go back to the homepage

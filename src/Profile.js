@@ -1,15 +1,16 @@
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
 
 export default function Profile() {
   const { user } = useAuth0();
+  useEffect(() => {
+    document.title = "Profile";
+  }, []);
   return (
     <Box
       sx={{
